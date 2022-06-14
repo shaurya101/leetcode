@@ -47,3 +47,5 @@ class Solution {
         inorder(root.right, l1); // check the right subtree of the above leftmost node
     }
 }
+
+// Inorder is left-root-right
