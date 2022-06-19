@@ -47,3 +47,38 @@ class Solution {
         return true;
     }
 }
+
+------------
+    
+// Approach 2 - IMPORTANT!
+    
+class Solution {
+    public boolean isHappy(int n) {
+        // Floyd Cycle detection algorithm
+        int slowSum = n; // slow pointer. Takes one step
+        int fastSum = n; // fast pointer. takes two steps
+        
+        while(fastSum !=1 && slowSum != 1){
+            slowSum = getSum(slowSum); // get next sum
+            fastSum = getSum(getSum(fastSum));// get next to next sum
+            // IMPORTANT - We were able to call next to next function result by the above statement. It is correct syntax for java as well. The inner getSum call runs first and returns a value which is the parameter for the outer getSum(). 
+            // We may think if what if the inner getSum returns 1 and since that value is passed to the outer getSum directly without checking if it was equal to 1; we could be miss out the csae when sum=1 and end up with incorrect solution. However if inner getSum return 1 then outer getSum will also return 1 since 1*1=1; so we are fine. But if we were checking for something else than 1, we would need to check the inner getSum result too!
+        
+            if(fastSum !=1 && slowSum != 1 && fastSum == slowSum)
+                return false;
+            // if slowSum and fastSum != 1 and they ar equal then it means there is a cycle and sum=1 will not occur.
+         }
+        return true;
+    }
+    private static int getSum(int number){
+        int sum=0;
+         while(number != 0){
+                int x = number%10;
+                sum += Math.pow(x,2);
+                number/=10;
+            }
+        return sum;
+    } 
+}
+
+// Two pointer approach is faster than HashSet approach.
