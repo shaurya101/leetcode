@@ -35,3 +35,19 @@ class Solution {
         return newSum;
     }
 }
+
+---------------
+    
+// Approach 2 - FASTER BOG O of 1 using Digital root
+    
+class Solution {
+    public int addDigits(int num) {
+         // using digital root concept. We iteratively sum the digits of a number until we get a single digit number. This is equal to num%9.
+        // Just be careful of the case when number=0, as we will get 0 for other numbers divisible by 9 as well in which case we need to return 9 not 0.
+        if ( num == 0 ) // if number 0 return 0
+            return 0;
+	    return num%9 == 0? 9: num%9;
+    }
+}
+
+// O(1)
