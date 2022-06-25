@@ -39,7 +39,8 @@ Depending on your language, the queue may not be supported natively. You may sim
 // Approach 2 is more i=efficient than approach 1, as only one costly operation in Approach 1.
 
   
-// Approach 1 - pop and top are inefficient
+// Approach 1 - pop and top are inefficient O(n), push is efficient O(1)
+  
 class MyStack {
    
     Queue<Integer> q1 = new LinkedList<>();
@@ -83,3 +84,41 @@ class MyStack {
     }
 }
 
+--------
+  
+// Approach 2 - push is inefficient O(n), poll and top efficient O(1)
+  
+class MyStack {
+    
+    Queue<Integer> q1 = new LinkedList<>();
+    Queue<Integer> q2 = new LinkedList<>();
+
+    public MyStack() {
+    }
+    
+    public void push(int x) {
+        int n = q1.size(); // copy q1 to q2
+        while(n>0){
+            q2.add(q1.poll());
+            n--;
+        }
+        q1.add(x); // add new element to q1
+        // Since always the new element is stored in head when we do poll, our queue will act as stack
+        while(!q2.isEmpty()) // add q2 in q1
+            q1.add(q2.poll());
+    }
+    
+    public int pop() {
+        return q1.poll();
+    }
+    
+    public int top() {
+        return q1.peek();
+    }
+    
+    public boolean empty() {
+        return q1.isEmpty();
+    }
+}
+
+/**
