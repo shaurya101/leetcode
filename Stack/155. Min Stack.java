@@ -41,7 +41,7 @@ class MinStack {
             top = new Node(val, val, null);
         else
         {
-            int min = top.val<val?top.val:val;
+            int min = top.min<val?top.min:val;
             Node p = new Node(val, min, top);
             top = p;
         }
