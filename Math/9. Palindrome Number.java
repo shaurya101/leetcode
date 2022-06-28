@@ -39,6 +39,8 @@ class Solution {
         // either x==palindrome if even digits eg 5555, 1221, 1001
         // or x==palindrome/10 for odd digits eg 121, 555
         // In odd cases the middle element is extra and so one extra digit will be there in our variable palindrome
+        // In even digits x will be equal to palidrome. In odd cases palindrome>x
+        // example for 121; at end of while x=1, palindrome-12
         return x==palindrome || x==palindrome/10;
     }
 }
