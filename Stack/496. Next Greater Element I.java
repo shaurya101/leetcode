@@ -16,6 +16,60 @@ Explanation: The next greater element for each value of nums1 is as follows:
 */
 ---------------
 
+// Approach 1 : O(n)
+
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> s1 = new Stack<>();
+        
+        // Finding greatest element to the right Approach A
+        for(Integer nums : nums2){
+            while(!s1.isEmpty() && nums>s1.peek())
+                map.put(s1.pop(), nums);
+            s1.push(nums);
+        }
+        // This is not a O(n^2) solution as it will not run n*n times. In worst case, which would be when elements are in decreasing order and the last element is greatest element. Here the while loop will not run and elements are just pushed onto stack. For the last element, the while loop will run n times again, So total runtime is n+n ie O(n).
+        
+        // we will store the answers in nums1 itself.
+        for(int i=0; i<nums1.length; i++)
+            nums1[i] = map.getOrDefault(nums1[i], -1);
+        // get value of nums1[i] if key exist, else get -1.
+        return nums1;
+    }
+}
+
+// Approach
+// First we will iterate nums2 and store the next greater element in a hashmap in key value pair.
+// key = num, value = next greater element
+// if the next greater element does not exist for a num we will not include it in hashmap.
+// then we iterate nums1 and see if the value for that nums1[i] key exist in hashmap. If it does we store the value else we will store -1 default.
+
+
+// Finding greatest element to the right Approach A
+
+// We use a stack and iterate from beginning of array.
+// We will use hashMap to hold key value pairs. 
+// The stack will hold the keys of the hasMap and the nums2[i] iteration element will be the values in the HashMap.
+// For the first element we push it to stack and move to next element.
+// Now, we check if the current num2[i] element is greater than the number in stack. If it is greater than we have found the first greater number to the right, for the key in the stack. Since we are moving from left to right, we can find the first greater element to the right of a particular element.
+// We will pop the key out from the stack, And compare the next key in the stack with current nums2[i]. Hence while loop.
+// The stack will be in decreasing order.
+// We finally push the nums2[i] in stack as we would want to find its next greater element as well.
+// If greater, we add it to the hashmap.
+
+
+// Finding greatest element to the right Approach B
+
+// We use a atck and hashmap.
+// This time, we iterate nums2 from back and we store the value in stack not the key.
+// We will push the last element in the stack and move to previous element in nums2.
+// Now we will compare if nums2[i]<stack top. If it is then we have found the greater element to he right for nums2[i] and we store it in ans[i]. If nums2>stack top, we pop out the stack top and now compare nums2[i] with the new stack top. If the new stack top is greater than we store it in ans[i], else we pop that too. When we find the greater element we can push nums[i] in stack and do i--. Incase we do not find greatre element for nums[i] ie our stack becomes empty due to popping. we will simply store -1 for ans[i] push nums[i] in stack, then i--.
+// We see that the stack will contain elements in increasing order. The bottom of stack will be largest and the top will the smallest for the stack. Also, the stack top will be left in the nums2 than the stack bottom in nums2.
+
+  
+----------------
+  
 // Approach 2 brute force O(n^2)
   
 class Solution {
