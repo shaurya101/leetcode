@@ -67,6 +67,18 @@ class Solution {
 // Now we will compare if nums2[i]<stack top. If it is then we have found the greater element to he right for nums2[i] and we store it in ans[i]. If nums2>stack top, we pop out the stack top and now compare nums2[i] with the new stack top. If the new stack top is greater than we store it in ans[i], else we pop that too. When we find the greater element we can push nums[i] in stack and do i--. Incase we do not find greatre element for nums[i] ie our stack becomes empty due to popping. we will simply store -1 for ans[i] push nums[i] in stack, then i--.
 // We see that the stack will contain elements in increasing order. The bottom of stack will be largest and the top will the smallest for the stack. Also, the stack top will be left in the nums2 than the stack bottom in nums2.
 
+// Approach 2 code - 
+/*
+for(int i = nums2.length-1; i>=0; i--){
+    while(!s1.isEmpty() && s1.peek()<nums[i])
+        s1.pop();
+     if(s1.isEmpty())
+        ans[i]=-1;
+    else
+        ans[i]=
+    s1.push(nums[i]);
+}
+*/
   
 ----------------
   
