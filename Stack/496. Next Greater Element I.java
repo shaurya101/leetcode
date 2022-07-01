@@ -82,7 +82,7 @@ for(int i = nums2.length-1; i>=0; i--){
      if(s1.isEmpty())
         ans[i]=-1;
     else
-        ans[i]=
+        ans[i]= s1.peek();
     s1.push(nums[i]);
 }
 */
