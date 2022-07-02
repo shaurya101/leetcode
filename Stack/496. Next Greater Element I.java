@@ -29,7 +29,9 @@ class Solution {
                 map.put(s1.pop(), nums);
             s1.push(nums);
         }
-        // This is not a O(n^2) solution as it will not run n*n times. In worst case, which would be when elements are in decreasing order and the last element is greatest element. Here the while loop will not run and elements are just pushed onto stack. For the last element, the while loop will run n times again, So total runtime is n+n ie O(n).
+        // This is not a O(n^2) solution as it will not run n*n times. 
+        // Every element is pushed and popped only once at worst case. So essentially it is O(n+n) ie O(n).
+        //In worst case, which would be when elements are in decreasing order and the last element is greatest element. Here the while loop will not run and elements are just pushed onto stack. For the last element, the while loop will run n times again, So total runtime is n+n ie O(n).
         
         // we will store the answers in nums1 itself.
         for(int i=0; i<nums1.length; i++)
