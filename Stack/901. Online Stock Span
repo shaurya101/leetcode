@@ -1,0 +1,86 @@
+/*
+901. Online Stock Span
+
+*/
+
+------------
+
+
+------------
+
+// FOLOWWING CODE DOESNT WORK 
+// The following code does not work because the stack seems to get overwritten and re-initialized everytime the next() is called. Are new instances of s1 made everytime next() is called? Why?
+// Why is the stack getting overwritten? (Each element.next == null, ie, the head.next for all inserted element is null. It means the stack only contain 1 element and are overwritten.
+
+class StockSpanner { 
+    localStack s1;
+    int index;
+
+    public StockSpanner() {
+        s1 = new localStack();
+        index=-1;
+    }
+    
+    public int next(int price) {
+        index++;
+        int ans;
+        while(!s1.isEmpty() && price>s1.peek())
+            s1.pop();
+      
+
+        if(s1.isEmpty())
+            ans = 1;
+        else
+            ans = index-s1.pop();
+        
+        s1.push(price, index);
+        return ans;
+    }
+}
+
+// Implementing Stack
+class Node{
+    int val;
+    int index;
+    Node next;
+    
+    public Node(int val, int index){
+        this.val = val;
+        this.index = index;
+        this.next = null;
+    }
+}
+class localStack{
+    Node head;
+    
+    public localStack(){
+        this.head=null;
+    }
+    public void push(int val, int index){
+        Node ptr = new Node(val, index);
+        System.out.println("head="+head);
+        System.out.println("ptr="+ptr);
+        ptr.next = head;
+        head=ptr;
+        System.out.println(index+" "+head+" "+head.next);
+    }
+    public int peek(){ //returns val
+        return head.val;
+    }
+    public int pop(){ // returns index
+        int x = head.index;
+        head=head.next;
+        return x;
+    }
+    public boolean isEmpty(){
+        if(head == null)
+            return true;
+        return false;
+    }
+}
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner obj = new StockSpanner();
+ * int param_1 = obj.next(price);
+ */
