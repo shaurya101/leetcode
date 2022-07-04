@@ -8,9 +8,12 @@
 
 ------------
 
-// FOLOWWING CODE DOESNT WORK 
+// FOLOWWING CODE DOESNT WORK - Found the error
 // The following code does not work because the stack seems to get overwritten and re-initialized everytime the next() is called. Are new instances of s1 made everytime next() is called? Why?
 // Why is the stack getting overwritten? (Each element.next == null, ie, the head.next for all inserted element is null. It means the stack only contain 1 element and are overwritten.
+// Found the error. 
+// SOLUTION ERROR - 
+// The stack was not getting overwritten or re-initialized but I was popping it for every loop hence it became empty at every loop!! 
 
 class StockSpanner { 
     localStack s1;
@@ -29,9 +32,9 @@ class StockSpanner {
       
 
         if(s1.isEmpty())
-            ans = 1;
+            ans = 1;                    // ERROR, ans = index+1;
         else
-            ans = index-s1.pop();
+            ans = index-s1.pop();       // ERROR, you are popping instead of peeking hence stack is becoming empty
         
         s1.push(price, index);
         return ans;
