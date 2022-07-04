@@ -1,9 +1,157 @@
 /*
 901. Online Stock Span
 
+Design an algorithm that collects daily price quotes for some stock and returns the span of that stock's price for the current day.
+The span of the stock's price today is defined as the maximum number of consecutive days (starting from today and going backward) for which the stock price was less than or equal to today's price.
+For example, if the price of a stock over the next 7 days were [100,80,60,70,60,75,85], then the stock spans would be [1,1,1,2,1,4,6].
+Implement the StockSpanner class:
+
+StockSpanner() Initializes the object of the class.
+int next(int price) Returns the span of the stock's price given that today's price is price.
+
+Example 1:
+Input
+["StockSpanner", "next", "next", "next", "next", "next", "next", "next"]
+[[], [100], [80], [60], [70], [60], [75], [85]]
+Output
+[null, 1, 1, 1, 2, 1, 4, 6]
+
+Explanation
+StockSpanner stockSpanner = new StockSpanner();
+stockSpanner.next(100); // return 1
+stockSpanner.next(80);  // return 1
+stockSpanner.next(60);  // return 1
+stockSpanner.next(70);  // return 2
+stockSpanner.next(60);  // return 1
+stockSpanner.next(75);  // return 4, because the last 4 prices (including today's price of 75) were less than or equal to today's price.
+stockSpanner.next(85);  // return 6
 */
 
 ------------
+Approach 1 - 
+
+class StockSpanner { 
+    localStack s1;
+    int index;
+
+    public StockSpanner() {
+        s1 = new localStack();
+        index=-1;
+    }
+    
+    public int next(int price) {
+        index++;
+        int ans;
+        while(!s1.isEmpty() && price>=s1.peek().val)
+            s1.pop(); 
+
+        if(s1.isEmpty())
+            ans = index+1;
+        else
+            ans = index-s1.peek().index;
+        
+        s1.push(price, index);
+        return ans;
+    }
+}
+
+// Implementing Stack
+class Node{
+    int val;
+    int index;
+    Node next;
+    
+    public Node(int val, int index){
+        this.val = val;
+        this.index = index;
+        this.next = null;
+    }
+}
+class localStack{
+    Node head;
+    
+    public localStack(){
+        this.head=null;
+    }
+    public void push(int val, int index){
+        Node ptr = new Node(val, index);
+        ptr.next = head;
+        head=ptr;
+    }
+    public Node peek(){
+        return head;
+    }
+    public int pop(){ // returns index
+        int x = head.index;
+        head=head.next;
+        return x;
+    }
+    public boolean isEmpty(){
+        if(head == null)
+            return true;
+        return false;
+    }
+}
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner obj = new StockSpanner();
+ * int param_1 = obj.next(price);
+ */
+
+// APPROACH
+// We use a stack to store nodes of price and index.
+// Even though there is no array input, we can keep a track of index using a variable which will be incremented for every next(price) call.
+// For every price, we will compare price and s1.peek(), If stack to is less than price, we will pop that node since between the top and price, price is now bigger and the later input(it comes on right side of top if there was an array) and thus price will be the next greater element for the subsequent elements.
+// We will compare the top and the current price after popping, till the stack becomes empty or the top>price; in which case top will be next greater element for price.
+// At this stage, our stack can be empty, which would mean for this price value there was no greater element on the left and hence we will return index+1; or if the stack is not empty and we found the greater element to price we will return its priceIndex-topIndex.
+// Before returning we will push the price in the stack
+
+
+
+------------
+
+Approach 2 - using inbuilt stack; it will be a stack of arrays!
+
+class StockSpanner {
+    Stack<Integer[]> s1; 
+    // NOTE - stack of arrays
+    // or Stack<int[]> s1 will also work, but then in push also we will need to push(new int[]{x,y});
+    int index;
+
+    public StockSpanner() {
+        s1 = new Stack<>();
+        index=-1;
+    }
+    
+    public int next(int price) {
+        index++;
+        int ans=1;
+        while(!s1.isEmpty() && s1.peek()[0]<=price)
+            s1.pop();
+        if(s1.isEmpty()) // if price is the greatest price value till now
+            ans = index+1;
+        else
+            ans = index - s1.peek()[1];
+        s1.push(new Integer[]{price, index});
+        return ans;
+    }
+}
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner obj = new StockSpanner();
+ * int param_1 = obj.next(price);
+ */
+
+// Approach
+// we will use a array of size 2 to store the price and index of one element.
+// we will push these arrays in a stack to keep track of various price-index values.
+// We are basically finding the index of the next greater element t the left.
+// we traverse from the left and move right. We put the price elements in the stack if the price is smaller than the stack.peek(). And pop the elements from the stack if the price>sack.peek(), as the current price will be the left greater element for the upcoming price values.
+// We subtract the current index and next greater element to the left's index(ie s1.pop()[1]) and return that.
+
+
 
 
 ------------
