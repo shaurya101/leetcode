@@ -1,0 +1,46 @@
+class Node{
+    int startTime; // not entry time. 
+    // start time will be later of entry time and previous dish served time. 
+    int servedTime; // start time + order time = served time
+    Node next;
+    
+    public Node(int val){
+        this.val = val;
+        this.next = null;
+    }
+}
+class localQueue{
+    Node front;
+    Node back;
+    
+    public localQueue(){
+        this.front = null;
+        this.back - null;
+    }
+    public void add(int val){
+        Node ptr = new Node(val);
+        if(isEmpty()){
+            front = ptr;
+            back = ptr;
+        }
+        else{
+            back.next = ptr;
+            back = ptr;
+        }
+    }
+    public int peel(){
+        if(!isEmpty())
+            return front.val;
+        return 0;
+    }
+    public int poll(){
+        int x = peek();
+        front = front.next;
+        return x;
+    }
+    public boolean isEmpty(){
+        if(front == null)
+            return true;
+        return false;
+    }
+}
