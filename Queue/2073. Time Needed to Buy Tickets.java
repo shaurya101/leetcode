@@ -24,7 +24,42 @@ The person at position 0 has successfully bought 5 tickets and it took 4 + 1 + 1
 */
 
 -----------------
+
+// APPROACH 1 - more efficient, w/o queue.
   
+class Solution {
+    public int timeRequiredToBuy(int[] tickets, int k) {
+        int ptr = 0;
+        int counter = 0;
+        
+        while(tickets[k] != 0){
+            if(ptr == k && tickets[k] == 1)
+                return counter+1;
+            if(tickets[ptr] != 0){
+                counter++;
+                tickets[ptr]--;
+            }
+            ptr++;
+            if(ptr == tickets.length)
+                ptr=0;
+        }
+        return 0;
+    }
+}
+
+// Approach
+// we use the counter to keep track of time units.
+// we traverse the array again and again till k becomes 1, after which we return counter+1
+// we do not increase counter if ticktets[ptr] = 0, since in a queue it would mean that element has left the queue.
+// we increase the pointer and make the pointer 0 when it reaces the end
+// We return 0 after while loop incase, tickets[k] was 0 initially.
+
+// Space complexity - O(1)
+// Time complexity - O(n)
+  
+-----------------
+// APPROACH 2 - less efficient   
+ 
 class Solution {
     public int timeRequiredToBuy(int[] tickets, int k) {
         localQueue q1 = new localQueue();
