@@ -40,3 +40,31 @@ class Solution {
 // We will make change to the link of current Node. We change the current.next to point at prev Node. or we take the link pointing at nextNode and point it at current Node.
 // After that we will shift our 3 nodes forward by 1 step.
 // At the end current will be null and our prev will be the last node  or the new head.
+
+-------------------------
+   
+// Recursive approach - logic is same, only approach is recursive
+    
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        return helper(null, head);
+    }
+    // Recursive approach
+    public ListNode helper(ListNode prev, ListNode current) {
+        if(current == null)
+            return prev;
+        ListNode next = current.next;
+        current.next = prev;
+        return helper(current, next);
+    }
+}
