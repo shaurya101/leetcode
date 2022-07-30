@@ -20,7 +20,33 @@ rotate 2 steps to the right: [3,99,-1,-100]
 */
 
 --------------
+ // fast - 1ms
+    
+class Solution {
+    public void rotate(int[] nums, int k) {
+        k=k%nums.length;
+        
+        reverse(nums, 0, nums.length-1);
+        reverse(nums, 0, k-1);
+        reverse(nums, k, nums.length-1);
+    }
+    private void reverse(int[] arr, int front, int back) {
+        while(front<back) {
+            arr[front] = arr[front]+arr[back];
+            arr[back] = arr[front] - arr[back];
+            arr[front] = arr[front] - arr[back];
+            front++;
+            back--;
+        }
+    }
+}
 
+// Approach
+// To rotate an array k times, we can first reverse the whole array. Then reverse 0 to k-1 index elements, and then reverse kth to end of array elements.
+
+--------------
+//slow - 10ms
+    
 class Solution {
     public void rotate(int[] nums, int k) {
         if(k <= 0)
