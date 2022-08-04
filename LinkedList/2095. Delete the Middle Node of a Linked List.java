@@ -31,7 +31,47 @@ Node 0 with value 2 is the only node remaining after removing node 1.
 */
 ---------------
 
-// Approach 2
+// Approach 1 - without third pointer as in approach 2
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        if(head == null || head.next == null) // if only one node is there return null
+            return null;
+        
+        ListNode fast = head.next.next;
+        ListNode slow = head;
+        
+        while(fast != null && fast.next != null) {
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        slow.next=slow.next.next;
+        return head;
+    }
+}
+
+// Approach
+// If only 0 or 1 node is present, return null as it will be deleted
+// Else, take two pointers fast and slow
+// slow=head
+// fast=head.next.next, to save an iteration, as after while loop our slow pointer will point to the node before middle node and we can directly delete middle node w/o using third pointer 'prev'
+// Move slow one node forward and fast two nodes in one loop until fast reaches end of list or becomes null.
+// Our slow will be the node before middle node which we can now delete.
+// slow.next=slow.next.next;
+    
+---------------
+
+// Approach 2 - using third pointer
 
 /**
  * Definition for singly-linked list.
