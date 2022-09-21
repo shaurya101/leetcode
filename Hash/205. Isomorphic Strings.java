@@ -22,9 +22,42 @@ Output: true
 
 -----------------
   
-  // Using two hasmaps.
+// Approach 1 - using 1 hashmap only
+// leetcode shows time and space as 43ms and 43.4mb
+// takes more time and almost same space then second approach. Why? we have used two hashmaps in approach two
+  
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        // if length is unequal strings cannot be isophormic
+        if(s.length() != t.length())
+            return false;
+        
+        HashMap<Character, Character> map = new HashMap<>();
+        
+        for(int i=0; i<s.length(); i++) {
+            // if map contains s.charAt(i) in key
+            if(map.containsKey(s.charAt(i))) {
+                // if it contains s.charAt(i) key, then its corresponding value in hashmap should be equal to t.charAt(i)
+                if(map.get(s.charAt(i)) != t.charAt(i))
+                    return false;
+            }
+            // if s.charAt(i) key is not there, t.charAt(i) should not be present in any of the 'values' of the map  
+            else if(map.containsValue(t.charAt(i)))
+                return false;
+            // put key-value pair if above two conditions are not met.
+            map.put(s.charAt(i), t.charAt(i));
+        }
+        return true;
+    }
+}
+  
+  
+-----------------
+  
+  // Using two hashmaps.
   // One hashmap has key as char of 's', and values as char of 't'
   // Other hasmap has key as char of 't', and values as char of 's'
+  // leetcode shows time and space as 26ms and 42.9ms. Why is it faster than first approach? and why it uses same space even though first way uses only one hashmap?
 
 class Solution {
     public boolean isIsomorphic(String s, String t) {
