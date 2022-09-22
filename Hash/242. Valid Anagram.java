@@ -50,7 +50,36 @@ class Solution {
    
 -------------
     
-// Approach 2 - using 1 hashmap. time = 27ms, space=46mb
+// Approach 2 - array sorting. time=16mx, space=45mb
+ 
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        char[] sortedS = s.toCharArray();
+        Arrays.sort(sortedS);
+
+        char[] sortedT = t.toCharArray();
+        Arrays.sort(sortedT);
+        
+        for (int i = 0; i < sortedS.length; i++) {
+            if (sortedS[i] != sortedT[i]) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
+
+// we sort the arrays and compare
+   
+    
+-------------
+    
+// Approach 3 - using 1 hashmap. time = 27ms, space=46mb
   
 class Solution {
     public boolean isAnagram(String s, String t) {
@@ -85,7 +114,7 @@ class Solution {
     
 -------------
 
-// Approach 3 - using 2 hashmaps. time = 25ms, space = 45mb
+// Approach 4 - using 2 hashmaps. time = 25ms, space = 45mb
     
 class Solution {
     public boolean isAnagram(String s, String t) {
