@@ -17,8 +17,40 @@ Output: false
 */
 
 -------------
+// Approach 1 - using 1 array. time=6ms, space = 43mb
     
-// Approach 1
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length())
+            return false;
+        
+        int[] frequency = new int[26];
+        
+        for(int i=0; i<s.length(); i++)
+            frequency[s.charAt(i)-97]++;
+        
+        for(int i=0; i<t.length(); i++)
+            frequency[t.charAt(i)-97]--;
+        
+        for(int i=0; i<frequency.length; i++)
+            if(frequency[i] != 0)
+                return false;
+        
+        return true;
+    }
+}
+
+// we will use the fact that contraints mention only lower case letters will be present in the strings
+// We can use an array whose index will represent the character and the cell value will represent the frequency of that character
+// We can do so by indexing from s.charAt(i)-97
+// when we traverse 's', we will increment the frequency of chars we meet
+// when we traverse 't', we will decrement the frequency of chars we meet
+// if strings are anagram, the frequency after these traversals should be 0
+    
+   
+-------------
+    
+// Approach 2 - using 1 hashmap. time = 27ms, space=46mb
   
 class Solution {
     public boolean isAnagram(String s, String t) {
@@ -53,7 +85,7 @@ class Solution {
     
 -------------
 
-// Approach 2
+// Approach 3 - using 2 hashmaps. time = 25ms, space = 45mb
     
 class Solution {
     public boolean isAnagram(String s, String t) {
