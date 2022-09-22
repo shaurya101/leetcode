@@ -17,7 +17,44 @@ Output: false
 */
 
 -------------
+    
+// Approach 1
+  
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        // if length is unequal then return false
+        if(s.length() != t.length())
+            return false;
+        
+        // we will store the chars of s as keys, and their frequency of occurrence as values in the map
+        HashMap<Character, Integer> map = new HashMap<>();
+        
+        // we will increment the key's value by 1, if every time we encounter the key
+        for(int i=0; i<s.length(); i++) {
+            map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0)+1);
+        }
+        
+        // we will decrement a key's value by 1, every time we encounter the key. If strings are anagram, the value of all keys should become 0 by the end of this loop
+        for(int i=0; i<t.length(); i++) {
+            map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0)-1);
+        }
+        
+        // checking if all values of hashmap are 0
+        for(int value: map.values()) {
+            if(value != 0)
+                return false;
+        }
+        
+        return true;
+    }
+} 
+    
+    
+    
+-------------
 
+// Approach 2
+    
 class Solution {
     public boolean isAnagram(String s, String t) {
         if(s.length() != t.length())
