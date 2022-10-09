@@ -26,6 +26,43 @@ Depending on your language, the queue may not be supported natively. You may sim
  * boolean param_4 = obj.empty();
  */
 
+// Approach 0 - using one queue
+  
+class MyStack {
+
+    // using one queue
+    Queue<Integer> q1;
+    
+    public MyStack() {
+        q1 = new LinkedList<>();
+    }
+    
+    // we will push the element in end of queue and then pop and pull all the elements before it and push it again into queue, so queue will be similar to stack now
+    public void push(int x) {
+        q1.add(x);
+        
+        for(int i=1; i<q1.size(); i++)
+            q1.add(q1.poll());
+    }
+    
+    public int pop() {
+        return q1.poll();
+    }
+    
+    public int top() {
+        return q1.peek();
+    }
+    
+    public boolean empty() {
+        if(q1.size() == 0)
+            return true;
+        return false;
+    }
+}
+
+------
+  
+  
 // Approach 1 - pop and top costly O(n) while push is O(1)
 // We can push as usual but when we pop, we will first pop out all elements except last from q1 to q2.
 // we store the last element in a variable.
