@@ -43,10 +43,12 @@ Depending on your language, the queue may not be supported natively. You may sim
   
 class MyStack {
    
-    Queue<Integer> q1 = new LinkedList<>();
-    Queue<Integer> q2 = new LinkedList<>();
+   Queue<Integer> q1; // declare here to keep q1 and q2 in scope in methods
+   Queue<Integer> q2;
 
     public MyStack() {
+        q1 = new LinkedList<>(); // initialize in constructor
+        q2 = new LinkedList<>();
     }
     
     public void push(int x) {
@@ -90,10 +92,12 @@ class MyStack {
   
 class MyStack {
     
-    Queue<Integer> q1 = new LinkedList<>();
-    Queue<Integer> q2 = new LinkedList<>();
+    Queue<Integer> q1;
+    Queue<Integer> q2;
 
     public MyStack() {
+        q1 = new LinkedList<>();
+        q2 = new LinkedList<>();
     }
     
     public void push(int x) {
