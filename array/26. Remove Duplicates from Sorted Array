@@ -1,0 +1,47 @@
+/*
+26. Remove Duplicates from Sorted Array
+
+Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same.
+Since it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.
+Return k after placing the final result in the first k slots of nums.
+Do not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.
+
+*/
+
+--------------
+
+// Approach 1
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int k=0; // pointer to the cell to be filled
+        // we will compare nums[k] with nums[i] and if it is greater and hence unique we will store nums[i] in nums[k+1]
+        // k will initially be 0 as by default first element will be unique. Hence in for loop 'i' will start from 1
+        
+        for(int i=1; i<nums.length; i++) {
+            if(nums[i]>nums[k])
+                nums[++k] = nums[i];
+        }
+        System.out.print(k);
+        return k+1;
+    }
+}
+
+--------------
+
+// Approach 2
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int k=0;
+        int max=nums[0]; // max element till 0th(kth) index
+        
+        for(int i=1; i<nums.length; i++){
+            if(nums[i] != max){ // if nums[i]!=max then nums[i]>max
+                nums[++k] = nums[i];
+                max=nums[i];
+            }
+        }
+        return k+1;
+    }
+}
