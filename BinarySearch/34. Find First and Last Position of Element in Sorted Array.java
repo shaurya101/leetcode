@@ -80,3 +80,49 @@ class Solution {
 // 2. and index to nums.length-1 for finding last occurence
 // In both the arrays there will be two types of numbers - there will be our target values and rest will be non-target values. And since its a sorted array, our target values will be grouped together at the beginning or end of these sub arrays.
 // This question is an extension of Q.278
+
+
+----------
+    
+// Approach 2
+    
+    class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length-1;
+        int mid = 0;
+        int firstPos = -1;
+        
+        while(low<=high) {
+            mid = low+(high-low)/2;
+            if(nums[mid] < target){
+                low = mid+1;
+                continue;
+            }
+            if(nums[mid] == target)
+                firstPos = mid;
+            high = mid-1;
+            }
+        
+        if(firstPos == -1) // if target does not exist return {-1,-1}
+            return new int[] {-1, -1};
+        else
+            low = firstPos;
+        high = nums.length-1;
+        int lastPos = -1;
+        // Now since we already know our firstPos, we only have to search from firstPos to last, ie out nums[mid] will never be less than target(since the low starts from target)!
+        
+        while(low<=high) {
+            mid = low+(high-low)/2;
+            if(nums[mid]>target) {
+                high = mid-1;
+                continue;
+            }
+            if(nums[mid] == target)
+                lastPos = mid;
+            low = mid+1;
+        }
+        
+        return new int[] {firstPos, lastPos};
+    }
+}
