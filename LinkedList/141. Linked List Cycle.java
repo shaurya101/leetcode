@@ -22,7 +22,42 @@ Explanation: There is no cycle in the linked list.
 */
 
 ----------------------------
+    
+// Approach 1 - two pointer approach
+    
+    
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode walker = head; // slow iterator (goes 1 node forward)
+        ListNode runner = head; // fast iterator (goes 2 nodes forward)
+        
+        while(runner != null && runner.next != null){ // avoid nullPointerException
+            walker = walker.next;
+            runner = runner.next.next;
+            if(walker == runner)
+                return true; // if runner = walker, it means it is a cycle is present and runner has completed the circle atleast once and reached the walker
+        }
+        return false;
+    }
+}
 
+    
+----------------------------
+    
+// Approach 2
+    
+    
 /**
  * Definition for singly-linked list.
  * class ListNode {
