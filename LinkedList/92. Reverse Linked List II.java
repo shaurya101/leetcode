@@ -13,7 +13,52 @@ Output: [5]
 
 -----------------
   
-// Approach 1
+// Approach 2
+  
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if(head == null || left == right)
+            return head;
+        
+        // In this logic we want to have a node before 'left' so we create a dummmy node incase left is the first node
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        
+        // taking prev to its correct position before left
+        for(int i=0; i<left-1; i++)
+            prev = prev.next;
+        
+        ListNode tail = prev.next; // tail will point to left, tail will become the tail of the reversed list
+        
+        // reversing
+        for(int i=0; i<right-left; i++) {
+            ListNode temp = prev.next; 
+            prev.next = tail.next;
+            tail.next = tail.next.next;
+            prev.next.next = temp;
+        }
+        // storing prev.next in temp
+        // prev's next node will be tail's next node
+        // tail should point to node after tail's next to next node
+        // the new prev.next node will point to temp
+        return dummy.next;
+    }
+}
+  
+-----------------
+  
+// Approach 2
 
 /**
  * Definition for singly-linked list.
