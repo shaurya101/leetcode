@@ -13,7 +13,7 @@ Output: [5]
 
 -----------------
   
-// Approach 2
+// Approach 1 - LinkedList traversed once O(N)
   
 /**
  * Definition for singly-linked list.
@@ -58,7 +58,7 @@ class Solution {
   
 -----------------
   
-// Approach 2
+// Approach 2 - reversed part is traversed twice still O(N)
 
 /**
  * Definition for singly-linked list.
