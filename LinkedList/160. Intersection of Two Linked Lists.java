@@ -41,30 +41,13 @@ public class Solution {
     }
 }
 
+
+-----------------------
+
+// Different Approach - Two pointers approach
+
+    
 /*
-
-Different Approach - Two pointers approach
---------
-
-public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-    //boundary check
-    if(headA == null || headB == null) return null;
-    
-    ListNode a = headA;
-    ListNode b = headB;
-    
-    //if a & b have different len, then we will stop the loop after second iteration
-    while( a != b){
-    	//for the end of first iteration, we just reset the pointer to the head of another linkedlist
-        a = a == null? headB : a.next;
-        b = b == null? headA : b.next;    
-    }
-    
-    return a;
-}
-
-
----------
 
 Visualization of this solution:
 Case 1 (Have Intersection & Same Len):
@@ -221,3 +204,62 @@ B:     b1 → b2 → b3 → null
 
 
 */
+    
+    
+
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    //boundary check
+    if(headA == null || headB == null) return null;
+    
+    ListNode a = headA;
+    ListNode b = headB;
+    
+    //if a & b have different len, then we will stop the loop after second iteration
+    while( a != b){
+    	//for the end of first iteration, we just reset the pointer to the head of another linkedlist
+        a = a == null? headB : a.next;
+        b = b == null? headA : b.next;    
+    }
+    
+    return a;
+}
+
+
+---------
+// Same two pointers approach
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode ptrA = headA;
+        ListNode ptrB = headB;
+        
+        while(ptrA != ptrB) { 
+            if(ptrA == null)
+                ptrA = headB;
+            else // else is important as w/o else we would never compare the head of lists once it switches as in the same loop ptr will be moved to ptr.next
+                ptrA = ptrA.next;
+            if(ptrB == null)
+                ptrB = headA;
+            else
+                ptrB = ptrB.next;
+        }
+        return ptrA;
+    }
+}
+
+// even if no intersection both ptrA & ptrB will become null simultaneously
+// if both become null simultaneously in the first lists traversal itself then also loop breaks. Also in this case there cannot be common node.
+// increment from null to headA/headB before incrementing ptrs so that atleast for one run ptrs will be null
+
+------------
