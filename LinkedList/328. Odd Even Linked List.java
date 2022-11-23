@@ -9,8 +9,42 @@ You must solve the problem in O(1) extra space complexity and O(n) time complexi
 */
 
 -----------
+    
+// Approach 1
+    
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if(head == null || head.next == null)
+            return head;
+        
+        ListNode odd = head, even = head.next, evenHead = even;
+        // we will traverse the list till we know we definetly have a new odd node ahead so we will check for 'even.next != null'
+        // Since loop will run only when even.next != null, and 'odd' variable will be updated only when loop runs, odd will never be null
+        // 'even' might become null as technically we will update even to even.next.next
+        while(even != null && even.next != null) {
+            odd.next = even.next; // pointing odd's next to the next odd node after skipping even node. 'odd' cannot be null as even.next != null in while condition
+            odd = odd.next;
+            even.next = odd.next; // or even.next = even.next.next; Pointing even's next node to the next even node after skipping odd node
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
+}
 
-// Approach 1 
+-----------
+
+// Approach 2 
 
 /**
  * Definition for singly-linked list.
