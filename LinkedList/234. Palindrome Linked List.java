@@ -69,8 +69,60 @@ class Solution {
 // We compare the two halves(2nd half reversed) of LL. 
 
 -----------------
+  
+// Approach 2 - w/o caring about if list is odd or even
+  
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode mid = getMid(head);
+        ListNode reverseHead = reverse(null, mid);
+        
+        while(head != null && reverseHead != null) {
+            if(head.val != reverseHead.val)
+                return false;
+            head = head.next;
+            reverseHead = reverseHead.next;
+        }
+        return true;
+    }
+    
+    private ListNode getMid(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+            return slow; 
+    }
+    private ListNode reverse(ListNode prev, ListNode current) {
+        if(current == null)
+            return prev;
+        ListNode next = current.next;
+        current.next = prev;
+        return reverse(current, next);
+    }
+}
 
-// Approach 2 - Inefficient and slow 
+// In this approach we do not care about odd or even
+// If there is an LL - 1 2 3 2 1, it will become into twp lists like - 1 2 3 null, and 1 2 3 null after 3 2 1 nullis reversed
+// In even also for a list like 1 2 2 1, it will become like 1 2 2 null, and 1 2 null, our while loop will run only for 1 2 null so we can find out for palindrome
+
+  
+-----------------
+
+// Approach 3 - Inefficient and slow 
 // use StringBuilder and iterate the list appending its values in the string
 // check if string is palindrome
   
