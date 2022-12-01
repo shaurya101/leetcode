@@ -19,8 +19,45 @@ Output: 5
 
 
 ----------------------
-
-
+// Approach 1 - cleaner code
+    
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public int minDepth(TreeNode root) {
+        if(root == null)
+            return 0; // if no node is there
+        return depth(root, 1); // else minimum depth will be 1
+    }
+    private int depth(TreeNode root, int level) {
+        // if a node has only one child, for eg only right child; then its children are like null and right
+        // the subsequent loop will run for root=null and root=right
+        // since we know there is definetly a sibling(else the next if loop would return level before the subsequent cal is ever called), we have to ignore the level of the null child, so we return max int.
+        if(root == null)
+            return Integer.MAX_VALUE;
+        //if leaf node found ie both children are null, return level
+        if(root.left == null && root.right == null)
+            return level;
+        return Math.min(depth(root.left, level+1), depth(root.right, level+1)) ;
+    }
+}
+    
+----------------------
+// Approach 2 - same method
+    
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
