@@ -34,7 +34,7 @@ class Solution {
     }
 }
 
-// Approach
+// Approach - https://www.youtube.com/watch?v=6hsjFqGXlxI
 // We have a list of paths, and a path
 // We use recursion and backtracking to add copies of path we validated to the answer list.
 // In dfs, we first add the current node we are on. Then we see if it is the last node. If yes, we have found a valid path.
