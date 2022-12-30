@@ -13,9 +13,33 @@ Explanation: As shown in the figure above, node 2 is connected to every other no
 
 */
 
-=============
-
+==============
+    
 // Approach 1
+    
+class Solution {
+    public int findCenter(int[][] edges) {
+        // since star node is present in every edge of edges[][]
+        // we know star is node is one of the below
+        int node1 = edges[0][0];
+        int node2 = edges[0][1];
+
+        // Now we will just check which of these nodes is present in the next edge of edges[][]
+        if(edges[1][0] == node1 || edges[1][1] == node1)
+            return node1;
+        return node2;
+    }
+}
+
+// Approach
+// We know star node center will be present in every edges[][] and all other nodes will be there in only one edges[][]
+// So based on that, we can say one of the nodes of the first edge will have the star node center
+// Since the star node will also be present in the next edge in edges[][]. We simply check which node from edges[0][x] is present in edges[1][x]
+    
+    
+==============
+    
+// Approach 2
 
 class Solution {
     public int findCenter(int[][] edges) {
