@@ -18,24 +18,18 @@ Output: 5.00000
 
 class Solution {
     public double findMaxAverage(int[] nums, int k) {
-        double avg=0.00;
-        double maxAvg=0;
+        // summing k indexes
         int sum=0;
-        
-        // first finding avg of first k numbers
-        for(int i=0; i<k; i++) {
+        for(int i=0; i<k; i++)
             sum+=nums[i];
-        }
-        avg=(double)sum/k;
-        maxAvg=avg;
-        
-        // finding max avg of k number in the rest of array
+
+        int maxSum = sum;
         for(int i=k; i<nums.length; i++) {
-            sum=sum-nums[i-k]+nums[i]; // deleting last number and adding new one
-            avg=(double)sum/k;
-            if(avg>maxAvg)
-                maxAvg=avg;
+            sum = sum + nums[i] - nums[i-k];
+            if(sum>maxSum)
+                maxSum = sum;
         }
-        return maxAvg;
+        double avg = (double)maxSum/k;
+        return avg;
     }
 }
