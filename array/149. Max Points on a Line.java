@@ -44,7 +44,8 @@ class Solution {
                 else
                     slope = ((double) points[i][1]-points[j][1])/(points[i][0]-points[j][0]);
                 
-                // 0.0 and -0.0 are different (signed) so we make them equal
+                // 0.0 and -0.0 are different (signed) so we make them equal.
+                // IEEE754 specifies a signed zero. That is, -0.0 and +0.0 are represented individually.
                 if(slope == -0.0)
                     slope = 0.0;
                 map.put(slope, map.getOrDefault(slope, 1)+1); //+1 as we will also include the current point, that is ith point
