@@ -96,9 +96,9 @@ class Solution {
                 return false;
 
             // checking for structure - so that only one of the nodes(at symmetric ends) is not null
-            if((temp1.left == null && temp2.right != null) || (temp1.left != null && temp2.right == null))
+            if((temp1.left == null && temp2.right != null) || (temp1.left != null && temp2.right == null)) // or the XNOR bitwise operation
             return false;
-             if((temp1.right == null && temp2.left != null) || (temp1.right != null && temp2.left == null))
+             if((temp1.right == null && temp2.left != null) || (temp1.right != null && temp2.left == null)) // or the XNOR bitwise operation
             return false;
 
             // pushing nodes into queue
