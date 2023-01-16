@@ -17,6 +17,50 @@ Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
 */
 
 ===========
+ 
+// Approach
+// We will add the intervals that come before newInterval in list
+// Then when interval's end >= newInterval's start, merging can be done if the intervals start <= newIntervals end
+// We will form a merged newInterval, and we will repeat and check if again a merged newInterval can be formed.
+// Once no more merging can be done, we add the merged newInterval to the list and then we add the rest of the intervals to the list
+
+ 
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> list = new ArrayList<>();
+
+        int i=0;
+
+        // adding all interval blocks whose ending < start of newInterval, as they will come before it
+        while(i<intervals.length && intervals[i][1] < newInterval[0]) {
+            list.add(new int[] { intervals[i][0], intervals[i][1]});
+            i++;
+        }
+
+        // Now we are at a point, where there is a possibility of merging since our interval's end >= newInterval's start
+        // We will merge the intervals if possible and a newInterval will be obtained.
+        // We will keep merging and making a new interval till possible
+        while(i<intervals.length && intervals[i][0] <= newInterval[1]) {
+            newInterval = new int[] { Math.min(intervals[i][0], newInterval[0]), 
+                                      Math.max(intervals[i][1], newInterval[1])};
+            i++;
+        }
+        // adding the merged newInterval
+        list.add(new int[] { newInterval[0], newInterval[1] });
+
+        // Now, adding the rest of the intervals
+        while(i<intervals.length) {
+            list.add(new int[] { intervals[i][0], intervals[i][1]});
+            i++;
+        }
+
+        return list.toArray(new int[list.size()][]);
+        // list.toArray(); will give error. Note syntax!
+    }
+}
+
+
+===========
 
 // Approach
 // We traverse the intervals array one time
@@ -93,26 +137,4 @@ class Solution {
 
         return list.toArray(new int[list.size()][]);
     }
-}
-
-
-// Approach 2
-
-public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
-    List<Interval> result = new LinkedList<>();
-    int i = 0;
-    // add all the intervals ending before newInterval starts
-    while (i < intervals.size() && intervals.get(i).end < newInterval.start)
-        result.add(intervals.get(i++));
-    // merge all overlapping intervals to one considering newInterval
-    while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
-        newInterval = new Interval( // we could mutate newInterval here also
-                Math.min(newInterval.start, intervals.get(i).start),
-                Math.max(newInterval.end, intervals.get(i).end));
-        i++;
-    }
-    result.add(newInterval); // add the union of intervals we got
-    // add all the rest
-    while (i < intervals.size()) result.add(intervals.get(i++)); 
-    return result;
 }
