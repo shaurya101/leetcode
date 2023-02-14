@@ -1,5 +1,5 @@
 /*
-67. Add Binary
+1523. Count Odd Numbers in an Interval Range
 
 Given two binary strings a and b, return their sum as a binary string. 
 
