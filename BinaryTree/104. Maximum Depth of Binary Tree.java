@@ -15,7 +15,7 @@ Output: 2
 */
 --------------------------
     
-// // Approach 1: T-O(n), S-O(n)
+// // Approach 1: Recursive approach T-O(n), S-O(n)
 
 /**
  * Definition for a binary tree node.
@@ -43,7 +43,7 @@ class Solution {
 
 -------------------------
     
-// Approach 2: T-O(n), S-O(n)
+// Approach 2: Iterative approach T-O(n), S-O(n)
 // We add the root node in the queue
 // Then we run a loop till the queue is empty
 // We have to remove the nodes of current level and add their child nodes in the queue. This, way we add all the nodes of the next level in the queue which will be emptied in the next run
