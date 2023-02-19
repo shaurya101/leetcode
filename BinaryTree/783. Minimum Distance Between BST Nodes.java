@@ -10,8 +10,49 @@ Output: 1
 */
 
 -----------------
+    
+// Approach 1 - T: O(n), S: O(1)
+// Inorder traversal of a BST is in sorted increasing manner
+// We traverse in inorder manner and check the difference b/w current node and previous node
+    
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    TreeNode prev = null;
+    int minDiff = Integer.MAX_VALUE;
+    public int getMinimumDifference(TreeNode root) {
+        inorder(root);
+        return minDiff;
+    }
+    private void inorder(TreeNode root) {
+        if(root == null)
+            return;
+        inorder(root.left);
+        if(prev != null)
+            minDiff = Math.min(minDiff, root.val - prev.val);
+        prev = root;
+        inorder(root.right);
+    }
+}
 
-// Approach - T: O(n), S: O(n)
+    
+-----------------
+
+    
+// Approach 2 - T: O(n), S: O(n)
 // Inorder traversal of a BST gives a sorted increasing array
 // Now we check the difference of the two adjacent values
 // Return the least
