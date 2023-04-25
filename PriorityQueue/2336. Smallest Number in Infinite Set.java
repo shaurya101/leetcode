@@ -106,7 +106,7 @@ class SmallestInfiniteSet {
 ------------
 
 
-// Approach 3
+// Approach 3 T: O(Nlog N) for initialization of heap and O(log N) for poll() and add() in heap. S: O(N)
 
 
 class SmallestInfiniteSet {
