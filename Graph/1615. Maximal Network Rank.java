@@ -17,6 +17,57 @@ Explanation: The network rank of cities 0 and 1 is 4 as there are 4 roads that a
 
 ----------------
 
+// T: (n^2), S: (n)
+
+
+class Solution {
+    public int maximalNetworkRank(int n, int[][] roads) {
+        // Array to store the count of roads connected to each city
+        int[] cityCount = new int[n];
+        
+        // Array of sets to store connected cities for each city
+        Set<Integer>[] connectedCities = new HashSet[n];
+        for (int i = 0; i < n; i++) {
+            connectedCities[i] = new HashSet<>();
+        }
+        
+        // Populate cityCount and connectedCities arrays based on the roads
+        for (int[] road : roads) {
+            int city1 = road[0];
+            int city2 = road[1];
+            
+            cityCount[city1]++;
+            cityCount[city2]++;
+            
+            // Adding connected cities to each city's set
+            connectedCities[city1].add(city2);
+            connectedCities[city2].add(city1);
+        }
+        
+        int maxRank = 0;
+        
+        // Calculate the network rank for all pairs of cities
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int rank = cityCount[i] + cityCount[j];
+                
+                // If the cities are connected, reduce one count as it was counted twice
+                if (connectedCities[i].contains(j)) {
+                    rank--;
+                }
+                
+                // Update the maximum network rank
+                maxRank = Math.max(maxRank, rank);
+            }
+        }
+        
+        return maxRank;
+    }
+}
+
+
+----------------
+
 //Approach - // T: (n^2), S: (n^2)
   
 class Solution {
