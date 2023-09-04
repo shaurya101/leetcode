@@ -26,8 +26,53 @@ Only node 4 is a terminal node, and every path starting at node 4 leads to node 
 
 --------------
 
+// Approach :  T: O(V+E), S: O(V); V=no of nodes, E=edges
+
+import java.util.*;
+
+class Solution {
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n = graph.length;
+        int[] vis = new int[n]; // Array to keep track of visited nodes
+        List<Integer> ans = new ArrayList<>(); // List to store eventual safe nodes
+
+        // Loop through each node in the graph
+        for (int i = 0; i < n; i++) {
+            // Check if the current node is eventually safe.
+            // We will call dfs irrespective of its vis[i] status to get the safe node status
+            if (dfs(graph, vis, i)) {
+                ans.add(i); // If safe, add it to the result list
+            }
+        }
+
+        return ans;
+    }
+
+    private boolean dfs(int[][] graph, int[] vis, int curr) {
+        // If the node has already been visited, return true if it's safe, false if not
+        if (vis[curr] != 0) {
+            return vis[curr] == 1; // return true if no cycle found
+        }
+
+        vis[curr] = 2; // Mark the current node as being visited
+
+        for (int neighbor : graph[curr]) {
+            // If any neighbor is not safe, the current node is not safe
+            if (!dfs(graph, vis, neighbor)) {
+                return false;
+            }
+        }
+
+        vis[curr] = 1; // Mark the current node as eventually safe
+        return true; // Return true as the current node is eventually safe
+    }
+}
+
+
+--------------
+
 // Approach - T: O(V+E), S: O(V); V=no of nodes, E=edges
-// 
+
 
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
