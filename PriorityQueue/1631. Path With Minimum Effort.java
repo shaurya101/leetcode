@@ -56,6 +56,7 @@ class Solution {
             }
 
             // Skip this cell if we have already visited it with a lower effort.
+            // We could avoid the if condition around line 72 if we use >= here to make sure we dont oscillate b/w parent and curr cell 
             if(currEffort > effort[row][col])
                 continue;
 
@@ -68,7 +69,10 @@ class Solution {
 
                 if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n) {
                     int newEffort = Math.max(currEffort, Math.abs(heights[newRow][newCol] - heights[row][col]));
-                    if(effort[newRow][newCol] > newEffort) { // W/o this IF statement we get a TLE (time limit exceeded)
+                    if(effort[newRow][newCol] > newEffort) { // W/o this IF statement we get a TLE (time limit exceeded).
+                     // We need to avoid infinite oscillations b/w parent and current cell which could happen if effort is equal. 
+                     // For cells other than parent this efort will be max integer if it is not visited yet and even if it is visited 
+                     // and we have the same effort we can skip it
                         effort[newRow][newCol] = newEffort;
                         minHeap.offer(new int[] {newRow, newCol, newEffort});
                     }
@@ -76,5 +80,52 @@ class Solution {
             }
         }
         return -1; // If there is no path to the bottom-right corner.
+    }
+}
+
+-----------------
+
+// Approach 2
+ 
+
+ class Solution {
+    public int minimumEffortPath(int[][] heights) {
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a,b) -> (a[0]-b[0]));
+        minHeap.offer(new int[] {0, 0, 0});
+
+        int[][] effort = new int[heights.length][heights[0].length];
+        // Initialize all cells with maximum effort.
+        for (int i = 0; i < heights.length; i++) {
+            Arrays.fill(effort[i], Integer.MAX_VALUE);
+        }
+
+
+        while(!minHeap.isEmpty()) {
+            int[] curr = minHeap.poll();
+            int distDiff = curr[0];
+            int row = curr[1];
+            int col = curr[2];
+
+            if(row == heights.length-1 && col == heights[0].length-1)
+                return curr[0];
+
+            if(distDiff >= effort[row][col])
+                continue;
+
+            effort[row][col] = distDiff;
+            int[][] directions = {{-1,0}, {0,1}, {1,0}, {0, -1}};
+            for(int[] dir : directions) {
+                int newRow = curr[1] + dir[0];
+                int newCol = curr[2] + dir[1];
+
+                if(newRow>=0 && newRow<heights.length &&
+                   newCol>=0 && newCol<heights[0].length) {
+                       int currDiff = Math.abs(heights[newRow][newCol] - heights[row][col]);
+                       minHeap.offer(currDiff>distDiff ? new int[] {currDiff, newRow, newCol} : new int[] {distDiff, newRow, newCol} );
+                   }
+            }
+        }
+
+        return -1;
     }
 }
