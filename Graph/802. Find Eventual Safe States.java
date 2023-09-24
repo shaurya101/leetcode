@@ -123,3 +123,36 @@ Recursive call stack for isInCycle: O(n), as each node could be visited during r
 Overall space complexity: O(n)
 
 */
+
+---------------
+
+class Solution {
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int[] vis = new int[graph.length];
+        List<Integer> ans = new ArrayList<>();
+
+        for(int i=0; i<graph.length; i++) {
+            if(vis[i]==0) {
+                isSafe(graph, vis, i);
+            }
+        }
+        for(int i=0; i<graph.length; i++) {
+            if(vis[i] == 1)
+                ans.add(i);
+        }
+        return ans;
+    }
+
+    private boolean isSafe(int[][] graph, int[] vis, int curr) {
+        vis[curr] = 2; // assuming curr node is not a safe node and in a cyclic path
+        // we will check if we find a cycle for this curr path else we say this node is safe
+        for(int neighbor : graph[curr]) {
+            if(vis[neighbor] == 2)
+                return false;
+            if(vis[neighbor] == 0 && !isSafe(graph, vis, neighbor))
+                return false;
+        }
+        vis[curr] = 1;
+        return true; // it is a safe node since no cycle found
+    }
+}
