@@ -34,8 +34,8 @@ Explanation: We can not enter room number 2 since the only key that unlocks it i
 class Solution {
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
         boolean[] vis = new boolean[rooms.size()];
-        int visitedCount = dfs(rooms, vis, 0, 0); // Start the DFS from room 0
-        return visitedCount == rooms.size();
+        int visitedCount = dfs(rooms, vis, 0, 0); // Start the DFS from room 0. If all rooms are reachable there will be only 1 component
+        return visitedCount == rooms.size(); // In that one component, if rooms.size() rooms were visited then there was only one component
     }
 
     private int dfs(List<List<Integer>> rooms, boolean[] vis, int visitedCount, int currRoom) {
@@ -51,3 +51,35 @@ class Solution {
 
 // We assume ith room is connected to all rooms in rooms[i] as rooms[i] are keys to rooms which ith room has
 // We dont consider the case of connected components or islands when running dfs or bfs as that will count rooms which we didnt have keys for. So we start with dfs of room 0 as that room is unlocked.
+
+
+----------
+
+// Approach 1 : Little less efficient than 1st way even though logic is same. 
+// Component should be 1 if all rooms are accessible from room '0' but here we traverse other components as well which was unnecassary
+
+class Solution {
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        int count = 0;
+        boolean[] vis = new boolean[rooms.size()];
+
+        for(int i=0; i<rooms.size(); i++) {
+            if(!vis[i]) {
+                dfs(rooms, vis, i);
+                count++;
+            }
+        }
+        if(count > 1) // if all rooms were reachable from room '0' there would only be 1 component
+            return false;
+        return true;
+    }
+    
+    private void dfs(List<List<Integer>> rooms, boolean[] vis, int curr) {
+        vis[curr] = true;
+
+        for(int key : rooms.get(curr)) {
+            if(!vis[key])
+                dfs(rooms, vis, key);
+        }
+    }
+}
