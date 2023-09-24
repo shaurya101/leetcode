@@ -126,6 +126,11 @@ Overall space complexity: O(n)
 
 ---------------
 
+// Approach 3 - 100% faster
+// T: O(V+E)
+// S: O(V)
+    
+
 class Solution {
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int[] vis = new int[graph.length];
@@ -156,3 +161,60 @@ class Solution {
         return true; // it is a safe node since no cycle found
     }
 }
+
+-----------------
+
+// Approach 4 - Kahn's algo on reversed graph
+// T: O(V+E)
+// S: O(V+E)
+
+class Solution {
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        // Create a reversed graph to represent the reverse edges of the original graph.
+        List<List<Integer>> revGraph = new ArrayList<>();
+        
+        // Initialize the reversed graph and indegree array.
+        for (int i = 0; i < graph.length; i++)
+            revGraph.add(new ArrayList<>());
+
+        int[] indegree = new int[graph.length];
+
+        // Populate the reversed graph and calculate indegrees.
+        for (int i = 0; i < graph.length; i++) {
+            for (int neighbor : graph[i]) {
+                revGraph.get(neighbor).add(i); // Reverse the edge.
+                indegree[i]++;
+            }
+        }
+
+        // Initialize a queue for Kahn's algorithm.
+        Queue<Integer> q1 = new ArrayDeque<>();
+        
+        // Add nodes with indegree 0 to the queue as starting points.
+        for (int i = 0; i < revGraph.size(); i++) {
+            if (indegree[i] == 0)
+                q1.offer(i);
+        }
+
+        List<Integer> ans = new ArrayList<>();
+
+        // Apply Kahn's algorithm to find eventual safe nodes.
+        while (!q1.isEmpty()) {
+            int curr = q1.poll();
+            ans.add(curr);
+
+            // Reduce the indegree of neighbors and add them to the queue if their indegree becomes 0.
+            for (int neighbor : revGraph.get(curr)) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0)
+                    q1.offer(neighbor);
+            }
+        }
+
+        // Sort the answer list and return it.
+        Collections.sort(ans);
+        return ans;
+        // Note return Collections.sort(ans); will not give correct answer as Collections.sort(ans) returns null on sucsess sort but we need to return sorted ans 
+    }
+}
+
