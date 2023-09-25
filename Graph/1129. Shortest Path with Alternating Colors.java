@@ -44,7 +44,7 @@ class Solution {
             adjList.get(blue[0]).add(new int[]{blue[1],1});
 
         Queue<int[]> q1 = new LinkedList<>();
-        boolean[][] visited = new boolean[n][2]; // visited[node, color]
+        boolean[][] visited = new boolean[n][2]; // visited[node, color] [0 and 1 are colors]
         q1.add(new int[]{0, 0, -1}); // {currentPos, distance, color}
         while(!q1.isEmpty()) {
             int[] curr = q1.poll();
@@ -92,10 +92,10 @@ class Solution {
         Arrays.fill(ans, -1);
         ans[0] = 0;
 
-        // Create a queue for BFS
+        // Create a queue for BFS - {node, steps, color}
         Queue<int[]> q1 = new ArrayDeque<>();
-        q1.offer(new int[] {0, 1, -1}); // Start with red color
-        q1.offer(new int[] {0, 1, 1});  // Start with blue color
+        q1.offer(new int[] {0, 0, -1}); // Start with red color [-1 and 1 are colors]
+        q1.offer(new int[] {0, 0, 1});  // Start with blue color [-1 and 1 are colors]
         
         while(!q1.isEmpty()) {
             int[] curr = q1.poll();
@@ -111,7 +111,7 @@ class Solution {
             
             for(int neighbor : neighbors) {
                 if(ans[neighbor] == -1) {
-                    ans[neighbor] = steps;
+                    ans[neighbor] = steps+1;
                 }
                 q1.offer(new int[] {neighbor, steps + 1, color * (-1)});
             }
