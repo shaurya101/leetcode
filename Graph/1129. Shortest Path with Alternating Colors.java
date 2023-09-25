@@ -110,7 +110,7 @@ class Solution {
             }
             
             for(int neighbor : neighbors) {
-                if(ans[neighbor] == -1 || steps <= ans[neighbor]) {
+                if(ans[neighbor] == -1) {
                     ans[neighbor] = steps;
                 }
                 q1.offer(new int[] {neighbor, steps + 1, color * (-1)});
