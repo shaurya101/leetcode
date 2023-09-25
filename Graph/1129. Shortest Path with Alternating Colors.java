@@ -64,3 +64,61 @@ class Solution {
         return answer;
     }
 }
+
+------------------------
+
+// Approach 2 - T: O(V+E), S: O(V+E)
+// Deleting visited edges of particular color instead of using a visited array
+
+
+class Solution {
+    public int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
+        // Create adjacency lists for red and blue edges
+        List<List<Integer>> redAdjList = new ArrayList<>();
+        List<List<Integer>> blueAdjList = new ArrayList<>();
+        for(int i=0; i<n; i++) {
+            redAdjList.add(new ArrayList<>());
+            blueAdjList.add(new ArrayList<>());
+        }
+        
+        // Populate adjacency lists with edges
+        for(int[] red : redEdges)
+            redAdjList.get(red[0]).add(red[1]);
+        for(int[] blue : blueEdges)
+            blueAdjList.get(blue[0]).add(blue[1]);
+
+        // Initialize the answer array with -1
+        int[] ans = new int[n];
+        Arrays.fill(ans, -1);
+        ans[0] = 0;
+
+        // Create a queue for BFS
+        Queue<int[]> q1 = new ArrayDeque<>();
+        q1.offer(new int[] {0, 1, -1}); // Start with red color
+        q1.offer(new int[] {0, 1, 1});  // Start with blue color
+        
+        while(!q1.isEmpty()) {
+            int[] curr = q1.poll();
+            int steps = curr[1];
+            int color = curr[2];
+            List<Integer> neighbors;
+            
+            if(color == -1) { // Red color, so we need blue neighbors
+                neighbors = blueAdjList.get(curr[0]);
+            } else { // Blue color, so we need red neighbors
+                neighbors = redAdjList.get(curr[0]);
+            }
+            
+            for(int neighbor : neighbors) {
+                if(ans[neighbor] == -1 || steps <= ans[neighbor]) {
+                    ans[neighbor] = steps;
+                }
+                q1.offer(new int[] {neighbor, steps + 1, color * (-1)});
+            }
+            
+            neighbors.clear(); // Deleting already visited edges of a particular color to avoid TLE
+        }
+        
+        return ans;
+    } 
+}
