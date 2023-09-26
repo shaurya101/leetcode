@@ -70,17 +70,14 @@ Since node 8 has a way to reach node 5, the edges b/w node 6-8 or 7-8 won’t be
             if (!vis[neighbor]) {
                 // Recursively explore unvisited neighbors
                 dfs(neighbor, curr, time + 1, adjList, vis, low, toi, bridges);
-                
-                // Update the lowest reachable node for the current node
-                low[curr] = Math.min(low[neighbor], low[curr]);
-
-                // Check if the edge is a critical connection (bridge)
-                if (low[neighbor] > toi[curr])
-                    bridges.add(Arrays.asList(curr, neighbor));
-            } else {
-                // Update the lowest reachable node for the current node
-                low[curr] = Math.min(low[neighbor], low[curr]);
             }
+                
+            // Update the lowest reachable node for the current node
+            low[curr] = Math.min(low[neighbor], low[curr]);
+
+            // Check if the edge is a critical connection (bridge)
+            if (low[neighbor] > toi[curr])
+                bridges.add(Arrays.asList(curr, neighbor));
         }
     }
 }
