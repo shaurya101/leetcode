@@ -17,6 +17,103 @@ Explanation: The network rank of cities 0 and 1 is 4 as there are 4 roads that a
 
 ----------------
 
+// T: (n+m), S: (n); n=number of cities, m=number of roads
+// https://leetcode.com/problems/maximal-network-rank/solutions/3924675/beat-100-o-v-e-most-efficient-solution-greedy-no-hash-no-double-loop/
+
+
+class Solution {
+    public int maximalNetworkRank(int n, int[][] roads) {
+        int[] degrees = new int[n];
+
+        // Calculate degrees of each city
+        for (int[] road : roads) {
+            int a = road[0];
+            int b = road[1];
+            degrees[a]++;
+            degrees[b]++;
+        }
+
+        int maxDegree = 0;
+        int secondMaxDegree = 0;
+
+        // Find the max and second max degrees
+        for (int degree : degrees) {
+            if (degree < secondMaxDegree) {
+                continue;
+            }
+            secondMaxDegree = degree;
+            if (secondMaxDegree > maxDegree) {
+                int temp = secondMaxDegree;
+                secondMaxDegree = maxDegree;
+                maxDegree = temp;
+            }
+        }
+
+        boolean[] isCandidate = new boolean[n];
+        int candidateCount = 0;
+        int king = -1;
+
+        // Identify candidates and the king (if exists)
+        for (int i = 0; i < n; i++) {
+            if (degrees[i] == secondMaxDegree) {
+                isCandidate[i] = true;
+                candidateCount++;
+            }
+            if (maxDegree > secondMaxDegree && degrees[i] == maxDegree) {
+                king = i;
+            }
+        }
+
+        if (maxDegree == secondMaxDegree) {
+            // Case 1: Multiple candidates with the same max degrees
+            if (candidateCount > maxDegree + 1) {
+                return maxDegree * 2;
+            }
+
+            int connectionCount = 0;
+
+            // Count connections between candidates
+            for (int[] road : roads) {
+                int a = road[0];
+                int b = road[1];
+                if (isCandidate[a] && isCandidate[b]) {
+                    connectionCount++;
+                }
+            }
+
+            if (connectionCount < candidateCount * (candidateCount - 1) / 2) {
+                return maxDegree * 2;
+            }
+
+            return maxDegree * 2 - 1;
+        }
+
+        // Case 2: Single max degree (king) and multiple second max degree candidates
+        int connectionCount = 0;
+
+        // Count connections between king and candidates
+        for (int[] road : roads) {
+            int a = road[0];
+            int b = road[1];
+            if (a != king && b != king) {
+                continue;
+            }
+            if (isCandidate[a] || isCandidate[b]) {
+                connectionCount++;
+            }
+        }
+
+        if (connectionCount < candidateCount) {
+            return maxDegree + secondMaxDegree;
+        }
+
+        return maxDegree + secondMaxDegree - 1;
+    }
+}
+
+
+----------------
+
 // T: (n^2), S: (n)
 
 
