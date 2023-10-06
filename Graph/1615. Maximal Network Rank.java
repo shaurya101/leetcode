@@ -108,3 +108,33 @@ class Solution {
 // The code uses an adjacency matrix to efficiently check whether two cities are connected in O(1) time.
 // If an adjacency list were used instead, the time complexity for checking connectivity between two cities would be O(n),
 // where n is the total number of cities.
+
+
+-----------------
+
+//Approach - // T: (n^2), S: (n^2)
+
+class Solution {
+    public int maximalNetworkRank(int n, int[][] roads) {
+        int[] degree = new int[n];
+        int[][] adjMat = new int[n][n];
+
+        for(int[] road : roads) {
+            degree[road[0]]++;
+            degree[road[1]]++;
+            adjMat[road[0]][road[1]] = 1;
+            adjMat[road[1]][road[0]] = 1;
+        }
+
+        int maxRank=0;
+        for(int i=0; i<n; i++) {
+            for(int j=0; j<i; j++) {
+                int rank = degree[i]+degree[j];
+                if(adjMat[i][j] == 1)
+                    rank--;
+                maxRank = Math.max(maxRank, rank);
+            }
+        }
+        return maxRank;
+    }
+}
