@@ -1,0 +1,53 @@
+/*
+213. House Robber II
+
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at 
+this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have a 
+security system connected, and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight 
+without alerting the police.
+ 
+
+Example 1:
+Input: nums = [2,3,2]
+Output: 3
+Explanation: You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent houses.
+
+*/
+
+-----------
+
+// DP tabulation with space optimisation
+// Approach : T: O(N), S: O(1)
+
+class Solution {
+    public int rob(int[] nums) {
+        if (nums.length == 1)
+            return nums[0]; // Only one house, so you can rob it and return its value.
+
+        // Since first and last house is adjacent and both cannot be taken together we will have 2 cases -
+        // 1. Robbing from the first house to the second-to-last house.
+        int max1 = robAmount(nums, 0, nums.length - 1);
+        // 2. Robbing from the second house to the last house.
+        int max2 = robAmount(nums, 1, nums.length);
+        // Return the maximum amount from the two scenarios.
+        return Math.max(max1, max2);
+    }
+
+    // Helper function to calculate the maximum amount that can be robbed in a range of houses.
+    private int robAmount(int[] nums, int start, int end) {
+        int prev = nums[start]; // Maximum amount if the current house is robbed.
+        int prev2 = 0; // We dont consider houses prior to start index
+
+        for (int i = start + 1; i < end; i++) {
+            int take = nums[i] + prev2; // Maximum amount if the current house is robbed.
+            int notTake = 0 + prev; // Maximum amount if the current house is not robbed.
+
+            // Update the maximum amount for the current house, considering both scenarios.
+            prev2 = prev;
+            prev = Math.max(take, notTake);
+        }
+        return prev; // Maximum amount considering the houses in the range [start, end).
+    }
+}
