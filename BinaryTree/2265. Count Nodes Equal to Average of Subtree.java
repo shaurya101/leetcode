@@ -21,6 +21,54 @@ For the node with value 6: The average of its subtree is 6 / 1 = 6.
 
 -------------
 
+// Approach - T: O(N), S: O(h), ie height ranging from O(log N) to O(N)
+
+
+class Solution {
+    public int averageOfSubtree(TreeNode root) {
+        return fn(root)[0];
+    }
+
+    private int[] fn(TreeNode root) {
+        if (root.left == null && root.right == null) {
+            // Base case: If the current node is a leaf, return its count as 1, sum value(root.val itself) and subtree count as 1.
+            return new int[] { 1, root.val, 1 };
+        }
+
+        int count = 0;
+        int sumSubtree = root.val;
+        int countSubtree = 1;
+
+        if (root.left != null) {
+            // Recursively process the left subtree.
+            int[] left = fn(root.left);
+            count += left[0];
+            sumSubtree += left[1];
+            countSubtree += left[2];
+        }
+        if (root.right != null) {
+            // Recursively process the right subtree.
+            int[] right = fn(root.right);
+            count += right[0];
+            sumSubtree += right[1];
+            countSubtree += right[2];
+        }
+
+        if (sumSubtree / countSubtree == root.val) {
+            // Check if the average of the subtree equals the current node's value. We round down in case of decimal values
+            count++;
+        }
+
+        // Return an array with the count of times the condition is true, the sum of the subtree, and the subtree count.
+        return new int[] { count, sumSubtree, countSubtree };
+    }
+}
+
+
+
+------------
+
+    
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
