@@ -12,6 +12,30 @@ Explanation: If you choose the indices i=1 and j=2 (indexed from 0), you will ge
 
 ==============
 
+// Approach - T: O(n), S: O(1)
+ 
+ class Solution {
+    public int maxProduct(int[] nums) {
+        int max = nums[0];
+        int max2 = 0;
+
+        for(int i=1; i<nums.length; i++) {
+            if(nums[i] >= max) {
+                max2 = max;
+                max = nums[i];
+            }
+            else if(nums[i] > max2) // for case when nums[i] < max but greater than max2 like in nums = [10,2,5,2, max will nevre be updated but since it is already 10 but we still need to select max2
+                max2 = nums[i];
+        }
+        return (max-1)*(max2-1);
+    }
+}
+
+
+ 
+==============
+
+ // Approach - T: O(nlogn), S: O(n)
 
 class Solution {
     public int maxProduct(int[] nums) {
